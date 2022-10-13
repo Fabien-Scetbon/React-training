@@ -90,9 +90,10 @@ class Game extends React.Component {
             const desc = move ?
                 'Revenir au tour no' + move :
                 'Revenir au début de la partie';
+                console.log("step",move);
             return (
                 <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
+                    <button style={{fontWeight: 'bold'}} onClick={() => this.jumpTo(move)}>{desc}</button>
                 </li>
             );
         });
