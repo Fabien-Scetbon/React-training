@@ -54,23 +54,37 @@ class Game extends React.Component {
             }],
             stepNumber: 0,
             xIsNext: true,
+            position: [{
+                row: null,
+                column: null
+            }],
         };
     }
 
     handleClick(i) {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
+        const position = this.state.position.slice(0, this.state.stepNumber + 1);
+
         const current = history[history.length - 1];
         const squares = current.squares.slice();
         if (calculateWinner(squares) || squares[i]) {
             return;
         }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
+
+        const row = Math.floor(i / 3) + 1;
+        const column = i % 3 + 1;
+
         this.setState({
             history: history.concat([{
                 squares: squares,
             }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext,
+            position:  position.concat([{
+                row: row,
+                column: column,
+            }]),
         });
     }
 
@@ -90,10 +104,16 @@ class Game extends React.Component {
             const desc = move ?
                 'Revenir au tour no' + move :
                 'Revenir au début de la partie';
-                console.log("step",move);
+
+            const style = move === this.state.stepNumber ? 'bold' : 'normal';
+
+            const row = this.state.position[move].row;
+            const column = this.state.position[move].column;
+
             return (
                 <li key={move}>
-                    <button style={{fontWeight: 'bold'}} onClick={() => this.jumpTo(move)}>{desc}</button>
+                    <p>( {row} , {column} )</p>
+                    <button style={{ fontWeight: style }} onClick={() => this.jumpTo(move)}>{desc}</button>
                 </li>
             );
         });
