@@ -22,24 +22,19 @@ class Board extends React.Component {
     }
 
     render() {
-
+        let list = [];
+        for (let i = 0; i < 9; i+=3) {
+            list.push(
+                <div className="board-row"  key={i}>
+                    {this.renderSquare(i)}
+                    {this.renderSquare(i+1)}
+                    {this.renderSquare(i+2)}
+                </div>
+            )
+        }
         return (
             <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
+                {list}
             </div>
         );
     }
@@ -81,7 +76,7 @@ class Game extends React.Component {
             }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext,
-            position:  position.concat([{
+            position: position.concat([{
                 row: row,
                 column: column,
             }]),
@@ -159,7 +154,13 @@ function calculateWinner(squares) {
             return squares[a];
         }
     }
+
+const found = squares.find(element => element =! "X" );
+console.log(found)
+if (found) {
     return null;
+} else console.log("N"); 
+
 }
 
 // ========================================
